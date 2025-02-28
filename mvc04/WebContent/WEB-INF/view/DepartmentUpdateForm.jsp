@@ -96,7 +96,7 @@
 				
 			</table>
 		</form>
-	
+	<h3 style="color: red;">${param.error }</h3>
 	</div>
 	
 	<!-- 회사 소개 및 어플리케이션 소개 영역 -->

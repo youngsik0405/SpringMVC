@@ -5,6 +5,8 @@
 
 package com.test.mvc;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -50,8 +52,26 @@ public class DepartmentUpdateController implements Controller
 		String departmentId = request.getParameter("departmentId");
 		String departmentName = request.getParameter("departmentName");
 		
+		ArrayList<Department> departmentList = new ArrayList<Department>();
+		
+		String error = "이미 존재하는 부서명입니다.";
+		
 		try
 		{
+			departmentList = dao.list();
+			
+			// 부서명 중복 시 안내
+			for (Department dep : departmentList)
+			{
+				if (dep.getDepartmentName().equals(departmentName))
+				{
+					mav.addObject("departmentId", departmentId);
+					mav.addObject("error", error);
+					mav.setViewName("redirect:departmentupdateform.action");
+					return mav;
+				}
+			}
+			
 			Department department = new Department();
 			
 			department.setDepartmentId(departmentId);

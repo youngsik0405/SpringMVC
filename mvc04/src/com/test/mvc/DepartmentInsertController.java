@@ -5,6 +5,8 @@
 
 package com.test.mvc;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
@@ -48,11 +50,27 @@ public class DepartmentInsertController implements Controller
 		
 		// 이전 페이지(→ DepartmentInsertForm.jsp)로부터 넘어온 데이터 수신
 		//-- departmentName
-		
 		String departmentName = request.getParameter("departmentName");
+		
+		ArrayList<Department> departmentList = new ArrayList<Department>();
+		
+		String error = "이미 존재하는 부서명입니다.";
 		
 		try
 		{
+			departmentList = dao.list();
+			
+			// 부서명 중복 시 안내
+			for (Department dep : departmentList)
+			{
+				if (dep.getDepartmentName().equals(departmentName))
+				{
+					mav.addObject("error", error);
+					mav.setViewName("redirect:departmentinsertform.action");
+					return mav;
+				}
+			}
+			
 			// Department 객체 구성
 			Department department = new Department();
 			
