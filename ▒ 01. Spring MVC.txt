@@ -580,10 +580,7 @@ http://localhost:3306/mvc04/loginform.action
 
 
 	
-	<!-- PositionDeleteController 등록 -->
-	<bean name="/positiondelete.action" class="com.test.mvc.PositionDeleteController">
-		<property name="dao" ref="positionDAO"></property>
-	</bean>
+
 
 	
 
