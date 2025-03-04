@@ -30,14 +30,16 @@ NOCACHE;
 
 --○ 데이터 입력 쿼리문 구성
 INSERT INTO TBL_MEMBERLIST(MID, NAME, TELEPHONE)
-VALUES(MEMBERLISTSEQ.NEXTVAL, '엄서연', '010-1123-2234');
+VALUES(MEMBERLISTSEQ.NEXTVAL, '엄서연', '010-1123-2234')
+;
 --==>> 1 행 이(가) 삽입되었습니다.
 
 
 --○ 확인 (리스트 조회 쿼리문 구성
 SELECT MID, NAME, TELEPHONE
 FROM TBL_MEMBERLIST
-ORDER BY MID;
+ORDER BY MID
+;
 --==>> 1	엄서연	010-1123-2234
 
 
@@ -48,7 +50,8 @@ COMMIT;
 
 --○ 인원 수 확인
 SELECT COUNT(*) AS COUNT
-FROM TBL_MEMBERLIST;
+FROM TBL_MEMBERLIST
+;
 --==>>1
 
 
@@ -72,3 +75,16 @@ ORDER BY MID;
 --○ 커밋
 COMMIT;
 --==>> 커밋 완료.
+
+
+--○ 데이터 삭제
+DELETE
+FROM TBL_MEMBERLIST
+WHERE MID = 5;
+--==>> 1 행 이(가) 삭제되었습니다.
+
+--○ 롤백
+ROLLBACK;
+--==>> 롤백 완료.
+
+

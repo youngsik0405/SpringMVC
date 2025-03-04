@@ -47,4 +47,17 @@ public class MemberMain
 		return "redirect:memberlist.action";
 	}
 	
+	/* 삭제 기능 처리 */
+	@RequestMapping(value = "/memberdelete.action", method = RequestMethod.GET)
+	public String memberDelete(int mid)
+	{
+		IMemberDAO dao = sqlSession.getMapper(IMemberDAO.class);
+		
+		dao.remove(mid);
+		
+		return "redirect:memberlist.action";
+	}
+	
+	
+	
 }

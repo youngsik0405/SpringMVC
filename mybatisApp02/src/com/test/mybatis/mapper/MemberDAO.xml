@@ -19,5 +19,14 @@
 		FROM TBL_MEMBERLIST
 		ORDER BY MID
 	</select>
+	
+	<!-- 삭제 기능 처리 -->
+	<delete id="remove">
+		DELETE
+		FROM TBL_MEMBERLIST
+		WHERE MID = #{mid}
+	</delete>
+
+	
 
 </mapper>
