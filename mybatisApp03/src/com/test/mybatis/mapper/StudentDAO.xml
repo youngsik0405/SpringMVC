@@ -55,7 +55,7 @@
 	</insert>
 	
 	<select id="search" resultType="com.test.mybatis.StudentDTO">
-		SELECT SID, NAME, TEL
+		SELECT *
 		FROM TBL_STUDENT
 		WHERE SID = #{sid}
 	</select>

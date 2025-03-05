@@ -8,32 +8,41 @@
 <html>
 <head>
 <meta charset="UTF-8">
-<title>StudentList.jsp</title>
+<title>GradeList.jsp</title>
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
 
 <script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
 <script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 <script type="text/javascript">
-	
+
 	$(document).ready(function()
-	{		
+	{
+		$(".btnInsert").click(function()
+		{
+			$(location).attr("href", "gradeinsert.action");
+		});
+		
+		
 		$(".btnUpdate").click(function()
 		{
-			$(location).attr("href", "studentupdateform.action?sid=" + $(this).val());
+			$(location).attr("href", "gradeupdateform.action?sid=" + $(this).val());
 		});
+		
 		
 		$(".btnDelete").click(function()
 		{
 			if (confirm("정말 삭제하시겠습니까?"))
 			{
-				$(location).attr("href", "studentdelete.action?sid=" + $(this).val());				
+				$(location).attr("href", "gradedelete.action?sid=" + $(this).val());				
 			}
 		});
 		
 	});
 	
 	
+
 
 </script>
 
@@ -74,17 +83,12 @@
 		<div class="panel panel-default">
 			<div class="panel-heading row">
 				<span style="font-size: 17pt; font-weight: bold;" class="col-md-3">
-					학생 리스트 출력
+					성적 리스트 출력
 				</span>
 				<span class="col-md-9">
-					<a href="studentinsertform.action" role="button" class="btn btn-success btn-xs"
-					id="btnAdd" style="vertical-align: bottom;">학생 추가</a>
+					<a href="studentlist.action" role="button" class="btn btn-success btn-xs"
+					id="btnList" style="vertical-align: bottom;">학생 리스트 돌아가기</a>
 				</span>
-			</div>
-			
-			<div class="panel-body">
-				<!-- 전체 학생 수 <span class="badge">2</span> -->
-				전체 학생 수 <span class="badge">${count }</span>
 			</div>
 			
 			<div class="panel-body">
@@ -93,55 +97,48 @@
 						<tr class="trTitle">
 							<th>번호</th>
 							<th>이름</th>
-							<th>전화번호</th>
-							<th>성적 입력 여부</th>
+							<th>과목1</th>
+							<th>과목2</th>
+							<th>과목3</th>
+							<th>총점</th>
+							<th>평균</th>
+							<th>등급</th>
+							<th>입력</th>
 							<th>수정 및 삭제</th>
 						</tr>
 					</thead>
 					
 					<tbody>
-						<!-- 
+						<c:forEach var="grade" items="${list}">
 						<tr>
-							<td>1</td>
-							<td>곽유진</td>
-							<td>010-9999-8888</td>
-							<td>0</td>
-							<td>
-								<button type="button" class="btn btn-success">수정</button>
-								<button type="button" class="btn btn-danger">삭제</button>
-							</td>
-						</tr>
-						<tr>
-							<td>2</td>
-							<td>윤영식</td>
-							<td>010-7777-6666</td>
-							<td>1</td>
-							<td>
-								<button type="button" class="btn btn-success">수정</button>
-								<button type="button" class="btn btn-danger">삭제</button>
-							</td>
-						</tr> 
-						-->
-						
-						<c:forEach var="student" items="${list}">
-						<tr>
-							<td>${student.sid }</td>
-							<td>${student.name }</td>
-							<td>${student.tel }</td>
-							
-							<!-- <td>1</td> -->
-							<c:if test="${student.sub==0 }">
-							<td>Ⅹ</td>
-							</c:if>
-							<c:if test="${student.sub==1 }">
-							<td>○</td>
-							</c:if>
+							<td>${grade.sid }</td>
+							<td>${grade.name }</td>
+							<td>${grade.sub1 }</td>
+							<td>${grade.sub2 }</td>
+							<td>${grade.sub3 }</td>
+							<td>${grade.tot }</td>
+							<td>${grade.avg }</td>
+							<td>${grade.ch }</td>
 							
 							<td>
-								<button type="button" class="btn btn-success btnUpdate"
-								value="${student.sid }">수정</button>
-								<button type="button" class="btn btn-danger btnDelete"
-								value="${student.sid }">삭제</button>
+							    <c:choose>
+							        <!-- 성적이 입력되지 않은 경우 -->
+							        <c:when test="${grade.tot == 0 or grade.tot == null}">
+							            <button type="button" class="btn btn-success btnInsert"
+							                    value="${grade.sid}">입력</button>
+							            <button type="button" class="btn btn-success btnUpdate" disabled="disabled">수정</button>
+							            <button type="button" class="btn btn-danger btnDelete" disabled="disabled">삭제</button>
+							        </c:when>
+							
+							        <!-- 성적이 입력된 경우 -->
+							        <c:otherwise>
+							            <button type="button" class="btn btn-success btnInsert" disabled="disabled">입력</button>
+							            <button type="button" class="btn btn-success btnUpdate"
+							                    value="${grade.sid}">수정</button>
+							            <button type="button" class="btn btn-danger btnDelete"
+							                    value="${grade.sid}">삭제</button>
+							        </c:otherwise>
+							    </c:choose>
 							</td>
 						</tr>
 						
