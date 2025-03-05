@@ -1,0 +1,240 @@
+SELECT USER
+FROM DUAL;
+--==>> SCOTT
+
+/*
+- scott.TBL_STUDENT 테이블
+     테이블 구조 : SID 	NUMBER		-- PK
+     		 , NAME	VARCHAR2(30)
+     		 , TEL	VARCHAR2(40) 
+   - scott.TBL_GRADE 테이블
+     테이블 구조 : SID	NUMBER		-- PK/FK
+     		 , SUB1	NUMBER(3)
+     		 , SUB2	NUMBER(3)
+    		 , SUB3	NUMBER(3) 
+   - STUDENTVIEW 뷰	
+     뷰 구조 : SID, NAME, TEL, SUB
+                               --- 참조 레코드 수
+
+   - GRADEVIEW 뷰
+     뷰 구조 : SID, NAME, SUB1, SUB2, SUB3, TOT, AVG, CH
+                                            ---  ---  ---
+                                            총점 평균 등급(합격, 과락, 불합격)
+
+*/
+
+--○ 실습 테이블 생성
+-- 테이블명 : TBL_STUDENT
+CREATE TABLE TBL_STUDENT
+( SID 	NUMBER		
+, NAME	VARCHAR2(30)
+, TEL	VARCHAR2(40)
+, CONSTRAINT STUDENT_SID_PK PRIMARY KEY(SID)
+);
+--==>> Table TBL_STUDENT이(가) 생성되었습니다.
+
+
+--○ 샘플 데이터 입력
+INSERT INTO TBL_STUDENT(SID, NAME, TEL)
+VALUES(1, '정영훈', '010-1212-1212');
+INSERT INTO TBL_STUDENT(SID, NAME, TEL)
+VALUES(2, '안석창', '010-3434-3434');
+INSERT INTO TBL_STUDENT(SID, NAME, TEL)
+VALUES(3, '김민승', '010-5656-5656');
+INSERT INTO TBL_STUDENT(SID, NAME, TEL)
+VALUES(4, '박세진', '010-7878-7878');
+--==>> 1 행 이(가) 삽입되었습니다. * 4
+
+
+
+--○ 확인
+SELECT *
+FROM TBL_STUDENT;
+--==>>
+/*
+1	정영훈	010-1212-1212
+2	안석창	010-3434-3434
+3	김민승	010-5656-5656
+4	박세진	010-7878-7878
+*/
+
+--○ 커밋
+COMMIT;
+--==>> 커밋 완료.
+
+
+--○ 실습테이블 생성
+-- 테이블명 : TBL_GRADE
+CREATE TABLE TBL_GRADE
+( SID   NUMBER
+, SUB1  NUMBER(3)
+, SUB2  NUMBER(3)
+, SUB3  NUMBER(3)
+, CONSTRAINT GRADE_SID_PK PRIMARY KEY(SID)
+, CONSTRAINT GRADE_SID_FK FOREIGN KEY(SID)
+             REFERENCES TBL_STUDENT(SID)
+, CONSTRAINT GRADE_SUB1_CK CHECK(SUB1 BETWEEN 0 AND 100)
+, CONSTRAINT GRADE_SUB2_CK CHECK(SUB2 BETWEEN 0 AND 100)
+, CONSTRAINT GRADE_SUB3_CK CHECK(SUB3 BETWEEN 0 AND 100)
+);
+--==>> Table TBL_GRADE이(가) 생성되었습니다.
+
+
+--○ 샘플 데이터 입력
+INSERT INTO TBL_GRADE(SID, SUB1, SUB2, SUB3)
+VALUES(1, 90, 80, 70);
+INSERT INTO TBL_GRADE(SID, SUB1, SUB2, SUB3)
+VALUES(2, 92, 82, 72);
+INSERT INTO TBL_GRADE(SID, SUB1, SUB2, SUB3)
+VALUES(3, 70, 60, 50);
+INSERT INTO TBL_GRADE(SID, SUB1, SUB2, SUB3)
+VALUES(4, 74, 64, 54);
+--==>> 1 행 이(가) 삽입되었습니다. * 4
+
+
+--○ 확인
+SELECT *
+FROM TBL_GRADE;
+--==>>
+/*
+1	90	80	70
+2	92	82	72
+3	70	60	50
+4	74	64	54
+*/
+
+
+--○ 커밋
+COMMIT;
+--==>> 커밋 완료.
+
+
+
+--○ 뷰 생성
+-- 뷰 이름 : STUDENTVIEW
+-- 뷰 구조 : SID, NAME, TEL, SUB
+
+CREATE OR REPLACE VIEW STUDENTVIEW
+AS
+SELECT SID, NAME, TEL
+     , (SELECT COUNT(*)
+        FROM TBL_GRADE
+        WHERE SID=S.SID) AS SUB
+FROM TBL_STUDENT S;
+--==>> View STUDENTVIEW이(가) 생성되었습니다.
+
+
+--○ 뷰 생성
+-- 뷰이름 : GRADEVIEW
+-- 뷰 구조 : SID, NAME, SUB1, SUB2, SUB3, TOT, AVG, CH
+SELECT S.SID AS SID
+     , S.NAME AS NAME
+     , NVL(G.SUB1, -1) AS SUB1
+     , NVL(G.SUB2, -1) AS SUB2
+     , NVL(G.SUB3, -1) AS SUB3
+     , NVL((G.SUB1 + G.SUB2 + G.SUB3), -1) AS TOT
+     , NVL(ROUND((G.SUB1 + G.SUB2 + G.SUB3)/3, 2), -1) AS AVG
+     , (CASE WHEN (G.SUB1 + G.SUB2 + G.SUB3)/3 < 60 THEN '불합격'
+             WHEN (G.SUB1<=40) OR (G.SUB2<=40) OR (G.SUB3<=40) THEN '과락'
+             ELSE '합격' END) AS CH
+FROM TBL_STUDENT S LEFT JOIN TBL_GRADE G
+ON S.SID = G.SID;
+
+
+DELETE
+FROM TBL_GRADE
+WHERE SID=4;
+--==>> 1 행 이(가) 삭제되었습니다.
+
+UPDATE TBL_GRADE
+SET SUB1=35, SUB2=95
+WHERE SID=3;
+--==>> 1 행 이(가) 업데이트되었습니다.
+
+
+UPDATE TBL_GRADE
+SET SUB1=52, SUB2=42
+WHERE SID=2;
+--==>> 1 행 이(가) 업데이트되었습니다.
+
+
+--○ 확인
+SELECT *
+FROM TBL_GRADE;
+/*
+1	90	80	70
+2	52	42	72
+3	35	65	50
+*/
+
+
+--○ 커밋
+COMMIT;
+--==>> 커밋 완료.
+
+CREATE OR REPLACE VIEW GRADEVIEW
+AS
+SELECT S.SID AS SID
+     , S.NAME AS NAME
+     , NVL(G.SUB1, -1) AS SUB1
+     , NVL(G.SUB2, -1) AS SUB2
+     , NVL(G.SUB3, -1) AS SUB3
+     , NVL((G.SUB1 + G.SUB2 + G.SUB3), -1) AS TOT
+     , NVL(ROUND((G.SUB1 + G.SUB2 + G.SUB3)/3, 2), -1) AS AVG
+     , (CASE WHEN (G.SUB1>40) AND (G.SUB2>40) AND (G.SUB3>40) AND ((G.SUB1 + G.SUB2 + G.SUB3)/3 >= 60) THEN '합격' 
+             WHEN (G.SUB1 + G.SUB2 + G.SUB3)/3 < 60 THEN '불합격'
+             WHEN (G.SUB1<=40) OR (G.SUB2<=40) OR (G.SUB3<=40) THEN '과락'
+             ELSE '확인필요' END) AS CH
+FROM TBL_STUDENT S LEFT JOIN TBL_GRADE G
+ON S.SID = G.SID;
+--==>> View GRADEVIEW이(가) 생성되었습니다.
+
+
+--○ 뷰 조회(STUDENTVIEW)
+SELECT SID, NAME, TEL, SUB
+FROM STUDENTVIEW;
+--==>>
+/*
+4	박세진	010-7878-7878	0
+1	정영훈	010-1212-1212	1
+2	안석창	010-3434-3434	1
+3	김민승	010-5656-5656	1
+*/
+
+
+--○ 뷰 조회(GRADEVIEW)
+SELECT SID, NAME, SUB1, SUB2, SUB3, TOT, AVG, CH
+FROM GRADEVIEW;
+--==>>
+/*
+4	박세진	-1	-1	-1	-1	-1	확인필요
+1	정영훈	90	80	70	240	80	합격
+2	안석창	52	42	72	166	55.33	불합격
+3	김민승	35	95	50	180	60	과락
+*/
+
+
+--○ 인원 수 확인
+SELECT COUNT(*) AS COUNT
+FROM TBL_STUDENT;
+--==>> 4
+
+SELECT SID, NAME, TEL
+FROM TBL_STUDENT
+WHERE SID = 1;
+
+
+UPDATE TBL_STUDENT
+SET NAME='둘리', TEL='010-1111-1111'
+WHERE SID = 6;
+
+DELETE
+FROM TBL_STUDENT
+WHERE SID=4;
+
+ROLLBACK;
+
+
+
+
+

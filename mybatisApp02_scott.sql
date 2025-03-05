@@ -80,7 +80,8 @@ COMMIT;
 --○ 데이터 삭제
 DELETE
 FROM TBL_MEMBERLIST
-WHERE MID = 5;
+WHERE MID = 5
+;
 --==>> 1 행 이(가) 삭제되었습니다.
 
 --○ 롤백

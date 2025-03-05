@@ -13,6 +13,8 @@ C:\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3790912737.in
 \mvc04\src
 C:\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\941345551.index
 \mvc02\src
+C:\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\510975723.index
+\mybatisApp03\src
 C:\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\3823471095.index
 \mvc04\src
 C:\SpringMVC\.metadata\.plugins\org.eclipse.jst.jsp.core\jspsearch\1405134761.index
