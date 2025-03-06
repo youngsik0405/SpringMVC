@@ -38,8 +38,8 @@
 
             if (errMsg !== "") 
             {
-                $("#errMsg").html(errMsg);
-                return;
+                $("#errMsg").html(errMsg).css("display", "block");
+                return false;
             } 
  
         });

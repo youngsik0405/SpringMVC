@@ -38,8 +38,8 @@
 
             if (errMsg !== "") 
             {
-                $("#errMsg").html(errMsg);
-                return;
+            	$("#errMsg").html(errMsg).css("display", "block");
+                return false;
             } 
  
         });
@@ -156,7 +156,7 @@
 							<td colspan="2" style="text-align: center;">
 								<button type="submit" class="btn btn-success">수정</button>
 								<button type="reset" class="btn btn-default">취소</button>
-		
+								
 								<span id="errMsg" style="font-size: small; color: red; display: none;">
 							
 								</span>

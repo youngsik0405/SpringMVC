@@ -202,6 +202,9 @@ http://localhost:3306/mybatisApp02/memberlist.action
    - GradeInsertForm.jsp	→ View 페이지 활용(JSP)
 				   성적 입력 폼 구성
 
+   - StudentUpdateForm.jsp
+   
+
    - dispatcher-servlet.xml	→ mybatis 관련 객체 등록 및 활용
    - web.xml			→ front controller 등록 및 인코딩 필터 활용
 

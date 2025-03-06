@@ -10,6 +10,11 @@
 <meta charset="UTF-8">
 <title>StudentUpdateForm.jsp</title>
 <link rel="stylesheet" type="text/css" href="<%=cp %>/css/main.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css" />
+
+<script type="text/javascript" src="http://code.jquery.com/jquery.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+
 </head>
 <body>
 
@@ -61,11 +66,10 @@
 							<td>
 								<div class="input-group" role="group">
 									<span class="input-group-addon" id="basic-addon1">
-										번호 <sup style="color: red;">※</sup>
+										번호
 									</span>
 									<input type="text" id="sid" name="sid" class="form-control"
-									maxlength="30" readonly="readonly" value="${student.sid }">
-									<span class="input-group-addon">30자 이내</span> 
+									readonly="readonly" value="${student.sid }"> 
 								</div>
 							</td>
 						</tr>
@@ -94,7 +98,7 @@
 										전화번호
 									</span>
 									<input type="tel" id="tel" name="tel" class="form-control"
-									placeholder="tel" maxlength="40" required="required" value="${student.tel }">
+									placeholder="tel" maxlength="40" value="${student.tel }">
 									<span class="input-group-addon">40자 이내</span>
 								</div>
 							</td>

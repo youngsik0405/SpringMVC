@@ -70,7 +70,7 @@ public class StudentController
 	   dao.add(student);
 	   
 	   result = "redirect:studentlist.action";
-	   
+	
 	   return result;
    }
    
@@ -116,8 +116,5 @@ public class StudentController
 	   result = "redirect:studentlist.action";
 	   
 	   return result;
-   }
-   
-   
-   
+   }  
 }
