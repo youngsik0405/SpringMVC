@@ -21,7 +21,7 @@
 	{
 		$(".btnInsert").click(function()
 		{
-			$(location).attr("href", "gradeinsert.action");
+			$(location).attr("href", "gradeinsertform.action?sid=" + $(this).val());
 		});
 		
 		
@@ -120,28 +120,37 @@
 							<td>${grade.avg }</td>
 							<td>${grade.ch }</td>
 							
-							<td>
-							    <c:choose>
-							        <!-- 성적이 입력되지 않은 경우 -->
-							        <c:when test="${grade.tot == 0 or grade.tot == null}">
-							            <button type="button" class="btn btn-success btnInsert"
-							                    value="${grade.sid}">입력</button>
-							            <button type="button" class="btn btn-success btnUpdate" disabled="disabled">수정</button>
-							            <button type="button" class="btn btn-danger btnDelete" disabled="disabled">삭제</button>
-							        </c:when>
 							
-							        <!-- 성적이 입력된 경우 -->
-							        <c:otherwise>
-							            <button type="button" class="btn btn-success btnInsert" disabled="disabled">입력</button>
-							            <button type="button" class="btn btn-success btnUpdate"
-							                    value="${grade.sid}">수정</button>
-							            <button type="button" class="btn btn-danger btnDelete"
-							                    value="${grade.sid}">삭제</button>
-							        </c:otherwise>
-							    </c:choose>
-							</td>
+							 <td>
+					            <c:choose>
+					                <c:when test="${grade.tot == -1}">
+					                    <button type="button" class="btn btn-success btnInsert"
+					                            value="${grade.sid}">입력</button>
+					                </c:when>
+					                
+					                <c:otherwise>
+					                    <button type="button" class="btn btn-success btnInsert" disabled="disabled">입력</button>
+					                </c:otherwise>
+					            </c:choose>
+					        </td>
+					
+					        
+					        <td>
+					            <c:choose>
+					                <c:when test="${grade.tot == -1}">
+					                    <button type="button" class="btn btn-success btnUpdate" disabled="disabled">수정</button>
+					                    <button type="button" class="btn btn-danger btnDelete" disabled="disabled">삭제</button>
+					                </c:when>
+					                
+					                <c:otherwise>
+					                    <button type="button" class="btn btn-success btnUpdate"
+					                            value="${grade.sid}">수정</button>
+					                    <button type="button" class="btn btn-danger btnDelete"
+					                            value="${grade.sid}">삭제</button>
+					                </c:otherwise>
+					            </c:choose>
+					        </td>
 						</tr>
-						
 						</c:forEach>
 						
 					</tbody>

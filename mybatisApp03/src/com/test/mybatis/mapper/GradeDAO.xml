@@ -20,7 +20,7 @@
 	
 	<select id="search" resultType="com.test.mybatis.GradeDTO">
 		SELECT *
-		FROM TBL_GRADE
+		FROM GRADEVIEW
 		WHERE SID = #{sid}
 	</select>
 

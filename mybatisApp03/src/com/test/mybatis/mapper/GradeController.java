@@ -59,7 +59,7 @@ public class GradeController
    
    @RequestMapping(value = "/gradeinsert.action", method = RequestMethod.POST)
    public String gradeInsert(GradeDTO grade)
-   {
+   {   
 	   String result = null;
 	   
 	   IGradeDAO dao = sqlSession.getMapper(IGradeDAO.class);

@@ -56,7 +56,7 @@
 	
 	<select id="search" resultType="com.test.mybatis.StudentDTO">
 		SELECT *
-		FROM TBL_STUDENT
+		FROM STUDENTVIEW
 		WHERE SID = #{sid}
 	</select>
 

@@ -91,7 +91,7 @@
 			</div>
 		
 			<div class="panel-body">
-				<form action="gradeinsert.action?sid=${sid }" method="post" id="myform">
+				<form action="gradeinsert.action" method="post" id="myform">
 					<table class="table table-striped">
 						<tr>
 							<td>
